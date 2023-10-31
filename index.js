@@ -33,9 +33,9 @@ function displayImage(index) {
           if (data.message === "Not a valid object") { //TODO: Use this if statement to display something when this happens
             console.log("404 Error here");
           }
-          let getPic = document.querySelector('#imageHolderTag');
-          getPic.src = data.primaryImage;
-          getPic.style.width = '50%';
+          let painting = document.querySelector('#imageHolderTag');
+          painting.src = data.primaryImage;
+          painting.style.width = '70%';
         })
         .catch((error) => console.error("Error fetching object details:", error));
     })
