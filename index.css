@@ -1,0 +1,14 @@
+body {
+  min-height: 100vh;
+  background-color: #88a2bc;
+}
+
+#header {
+  min-height: 220px;
+  text-align: center;
+  font-size: 2rem;
+}
+
+#artDisplaySection {
+  min-height: 862px;
+}
