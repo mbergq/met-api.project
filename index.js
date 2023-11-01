@@ -1,7 +1,18 @@
+//URLs for the Met Museum API
 let vanGoghUrl = 'https://collectionapi.metmuseum.org/public/collection/v1/search?hasImages=true&q=van Gogh'
 let objectsUrl = 'https://collectionapi.metmuseum.org/public/collection/v1/objects/'
 
 let i = 0;
+
+//Add message to display whenever there is no image available to display
+const imageWrapper = document.querySelector('#imageWrapper');
+const noImageMessage = document.createElement('h2');
+noImageMessage.classList.add('noImageMessage');
+noImageMessage.textContent = "No image available..";
+imageWrapper.appendChild(noImageMessage);
+noImageMessage.style.display = 'none';
+
+
 
 //Code to iterate back to "previous" image, upon click we decrement the value / go back to previous image.
 document.querySelector('#previous').addEventListener('click', () => {
@@ -22,14 +33,19 @@ function displayImage(index) {
   fetch(vanGoghUrl)
     .then((res) => res.json())
     .then((data) => {
-      console.log(data.objectIDs[index]);
-      const vgID = data.objectIDs[index];
+      // console.log(data.objectIDs[index]);
+      let vgID = data.objectIDs[index];
       fetch(objectsUrl + vgID)
         .then((res) => res.json())
         .then((data) => {
+          console.log(data.objectID);
+          //Function to display a errormessage when there is no img available to dsisplay
           if (data.primaryImage === "") {
-            console.log("No img available"); //TODO: Use this if statement to display something when this happens
+            document.querySelector('.noImageMessage').style.display = 'block';
+          } else {
+            document.querySelector('.noImageMessage').style.display = 'none';
           }
+
           if (data.message === "Not a valid object") { //TODO: Use this if statement to display something when this happens
             console.log("404 Error here");
           }
@@ -51,11 +67,11 @@ function displayImage(index) {
           typeOfPainting.textContent = "Medium: " + data.medium;
 
           let infoURL = document.querySelector('#infoURL');
-          infoURL.innerHTML = "<a href='" + data.objectURL + "'>Additional info about the artwork</a>";
+          infoURL.innerHTML = "<a href='" + data.objectURL + "'>Additional info..</a>";
 
 
         })
-      // .catch((error) => console.error("Error fetching object details:", error));
+
     })
-  // .catch((error) => console.error("Error fetching Van Gogh data:", error));
+
 }
