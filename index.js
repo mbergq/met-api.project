@@ -33,13 +33,27 @@ function displayImage(index) {
           if (data.message === "Not a valid object") { //TODO: Use this if statement to display something when this happens
             console.log("404 Error here");
           }
+
           let painting = document.querySelector('#imageHolderTag');
           painting.src = data.primaryImage;
           painting.style.width = '70%';
-          let test = document.querySelector('#test');
-          console.log(data);
-          console.log(data.constituents[0].name); //get artist name
-          test.textContent = data.accessionYear;
+
+          let artistName = document.querySelector('#artistName');
+          artistName.textContent = data.constituents[0].name;
+
+          let lifespan = document.querySelector('#lifespan');
+          lifespan.textContent = "Born: " + data.artistBeginDate + " -  Passed: " + data.artistEndDate;
+
+          let nationality = document.querySelector('#nationality');
+          nationality.textContent = "Nationality: " + data.artistNationality;
+
+          let typeOfPainting = document.querySelector('#typeOfPainting');
+          typeOfPainting.textContent = "Medium: " + data.medium;
+
+          let infoURL = document.querySelector('#infoURL');
+          infoURL.innerHTML = "<a href='" + data.objectURL + "'>Additional info about the artwork</a>";
+
+
         })
       // .catch((error) => console.error("Error fetching object details:", error));
     })

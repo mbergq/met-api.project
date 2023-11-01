@@ -13,8 +13,12 @@ body {
   display: flex;
 }
 
+#navigationBar {
+  min-width: 200px;
+}
+
 #imageHolderTag {
-  margin-left: 10rem;
+  margin-left: 4rem;
 }
 
 /* #imageWrapper {} */
