@@ -1,4 +1,4 @@
-let vanGoghUrl = 'https://collectionapi.metmuseum.org/public/collection/v1/search?hasImages=true&q=Vincent Van Gogh'
+let vanGoghUrl = 'https://collectionapi.metmuseum.org/public/collection/v1/search?hasImages=true&q=van Gogh'
 let objectsUrl = 'https://collectionapi.metmuseum.org/public/collection/v1/objects/'
 
 let i = 0;
@@ -36,8 +36,12 @@ function displayImage(index) {
           let painting = document.querySelector('#imageHolderTag');
           painting.src = data.primaryImage;
           painting.style.width = '70%';
+          let test = document.querySelector('#test');
+          console.log(data);
+          console.log(data.constituents[0].name); //get artist name
+          test.textContent = data.accessionYear;
         })
-        .catch((error) => console.error("Error fetching object details:", error));
+      // .catch((error) => console.error("Error fetching object details:", error));
     })
-    .catch((error) => console.error("Error fetching Van Gogh data:", error));
+  // .catch((error) => console.error("Error fetching Van Gogh data:", error));
 }

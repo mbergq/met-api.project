@@ -10,23 +10,19 @@ body {
 }
 
 #artDisplaySection {
-  min-height: 862px;
   display: flex;
-  flex-wrap: wrap;
-  flex-direction: column;
-
 }
 
-#imageWrapper {
-  margin-top: 32px;
-  flex-grow: 1;
+#imageHolderTag {
+  margin-left: 10rem;
 }
+
+/* #imageWrapper {} */
 
 #previous {
-  flex-grow: 0;
-  width: fit-content;
+  height: fit-content;
 }
 
 #next {
-  width: fit-content;
+  height: fit-content;
 }
