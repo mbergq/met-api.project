@@ -2,7 +2,24 @@
 let vanGoghUrl = 'https://collectionapi.metmuseum.org/public/collection/v1/search?hasImages=true&q=van Gogh'
 let objectsUrl = 'https://collectionapi.metmuseum.org/public/collection/v1/objects/'
 
+let previousButton = document.querySelector('#previous');
+let nextButton = document.querySelector('#next');
 let i = 0;
+
+
+function updateButtonsState() {
+  if (i > 0) {
+    previousButton.disabled = false;//TODO: Disable Next button when user is at end of the array
+  } else {
+    previousButton.disabled = true;
+  }
+
+  if (i === 423) {
+    nextButton.disabled = true;
+  } else {
+    nextButton.disabled = false;
+  }
+}
 
 //Add message to display whenever there is no image available to display
 const imageWrapper = document.querySelector('#imageWrapper');
@@ -13,18 +30,24 @@ imageWrapper.appendChild(noImageMessage);
 noImageMessage.style.display = 'none';
 
 
-
+//Function which displays the first image of the array
+addEventListener('DOMContentLoaded', () => {
+  updateButtonsState();
+  displayImage(i);
+})
 //Code to iterate back to "previous" image, upon click we decrement the value / go back to previous image.
 document.querySelector('#previous').addEventListener('click', () => {
   if (i > 0) {
     i--;
     displayImage(i);//this calls the function below and updates its "index" value of i
+    updateButtonsState();
   }
 })
 //Code to iterate to "next" image, this value is added to the array i fetch in function below.
 document.querySelector('#next').addEventListener('click', () => {
   i++;
   displayImage(i);//this calls the function below and updates its "index" value of i
+  updateButtonsState();
 })
 
 /* First i fetch ID's of all Vincent Van Gogh artwork available from the api, then i use those ID's to
@@ -33,12 +56,15 @@ function displayImage(index) {
   fetch(vanGoghUrl)
     .then((res) => res.json())
     .then((data) => {
-      // console.log(data.objectIDs[index]);
+
       let vgID = data.objectIDs[index];
+
+      //Second fetch using vgID and an arrayfunction to iterate to next object
       fetch(objectsUrl + vgID)
         .then((res) => res.json())
         .then((data) => {
           console.log(data.objectID);
+
           //Function to display a errormessage when there is no img available to dsisplay
           if (data.primaryImage === "") {
             document.querySelector('.noImageMessage').style.display = 'block';
