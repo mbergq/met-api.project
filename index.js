@@ -1,5 +1,7 @@
-//URLs for the Met Museum API
+//URL to fetch object ID's that is mainly about or related to the artist Vincent van Gogh
 let vanGoghUrl = 'https://collectionapi.metmuseum.org/public/collection/v1/search?hasImages=true&q=van Gogh'
+
+//Then i use this URL to to gather specific data about a specific objectID, the URL above only returns ID's that is available
 let objectsUrl = 'https://collectionapi.metmuseum.org/public/collection/v1/objects/'
 
 let previousButton = document.querySelector('#previous');
@@ -9,7 +11,7 @@ let i = 0;
 
 function updateButtonsState() {
   if (i > 0) {
-    previousButton.disabled = false;//TODO: Disable Next button when user is at end of the array
+    previousButton.disabled = false;
   } else {
     previousButton.disabled = true;
   }
@@ -50,8 +52,7 @@ document.querySelector('#next').addEventListener('click', () => {
   updateButtonsState();
 })
 
-/* First i fetch ID's of all Vincent Van Gogh artwork available from the api, then i use those ID's to
-fetch unique objects where i then can access the image and display them */
+
 function displayImage(index) {
   fetch(vanGoghUrl)
     .then((res) => res.json())
@@ -101,3 +102,5 @@ function displayImage(index) {
     })
 
 }
+
+//Egyptian art section

@@ -9,7 +9,7 @@ body {
   font-size: 2rem;
 }
 
-#artDisplaySection {
+#vanGoghartDisplaySection {
   display: flex;
 }
 
@@ -23,10 +23,11 @@ body {
 
 /* #imageWrapper {} */
 
-#previous {
-  height: fit-content;
+/* Egyptian art section styling */
+#egyptianArtSection {
+  display: flex;
 }
 
-#next {
-  height: fit-content;
+#egyptianArtNavBar {
+  min-width: 200px;
 }
