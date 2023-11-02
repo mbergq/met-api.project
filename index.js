@@ -103,10 +103,11 @@ function displayImage(index) {
 //Egyptian art code
 
 //URL that collects objectID's related to egyptian art with a search query which looks for id's that contains cats
-const egyptianArtObjects = 'https://collectionapi.metmuseum.org/public/collection/v1/search?departmentId=10&q=cat';
+const egyptianArtObjects = 'https://collectionapi.metmuseum.org/public/collection/v1/search?hasImages=true&q=Egyptian Art';
 
 const egyptianArtPreviousButton = document.querySelector('#egyptianArtPreviousBtn');
 const egyptianArtNextButton = document.querySelector('#egyptianArtNextBtn');
+const egyptianArtRandomButton = document.querySelector('#egyptianArtRandomBtn');
 
 let n = 0;
 
@@ -123,21 +124,36 @@ egyptianArtNextButton.addEventListener('click', () => {
   fetchEgyptianArt(n);
 
 })
+//Random button
+egyptianArtRandomButton.addEventListener('click', () => {
+  n = Math.floor(Math.random() * 6332);
+  fetchEgyptianArt(n);
+
+})
+
 
 function fetchEgyptianArt(num) {
   fetch(egyptianArtObjects)
     .then((res) => res.json())
     .then((data) => {
 
-      console.log(data.objectIDs[num]);
-      let egyptianArtID = data.objectIDs[num];//TODO: Change 0 to num here
+      let egyptianArtID = data.objectIDs[num];
 
       fetch(objectsUrl + egyptianArtID)
         .then((res) => res.json())
         .then((data) => {
-          const egyptianArtImage = document.querySelector('#egyptianArtImage');
-          egyptianArtImage.src = data.primaryImage;
-          egyptianArtImage.style.width = '70%';
+
+          //Temporary fix for mitigating empty primaryImage objects
+          if (data.primaryImage === '') {
+            console.log('no image');
+            num++;
+            fetchEgyptianArt(num);
+          } else {
+            console.log(data.objectID);
+            const egyptianArtImage = document.querySelector('#egyptianArtImage');
+            egyptianArtImage.src = data.primaryImage;
+            egyptianArtImage.style.width = '70%';
+          }
 
         })
     })
