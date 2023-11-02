@@ -1,13 +1,12 @@
 //URL to fetch object ID's that is mainly about or related to the artist Vincent van Gogh
-let vanGoghUrl = 'https://collectionapi.metmuseum.org/public/collection/v1/search?hasImages=true&q=van Gogh'
+const vanGoghUrl = 'https://collectionapi.metmuseum.org/public/collection/v1/search?hasImages=true&q=van Gogh'
 
 //Then i use this URL to to gather specific data about a specific objectID, the URL above only returns ID's that is available
-let objectsUrl = 'https://collectionapi.metmuseum.org/public/collection/v1/objects/'
+const objectsUrl = 'https://collectionapi.metmuseum.org/public/collection/v1/objects/'
 
-let previousButton = document.querySelector('#previous');
-let nextButton = document.querySelector('#next');
+const previousButton = document.querySelector('#previous');
+const nextButton = document.querySelector('#next');
 let i = 0;
-
 
 function updateButtonsState() {
   if (i > 0) {
@@ -31,14 +30,13 @@ noImageMessage.textContent = "No image available..";
 imageWrapper.appendChild(noImageMessage);
 noImageMessage.style.display = 'none';
 
-
 //Function which displays the first image of the array
 addEventListener('DOMContentLoaded', () => {
   updateButtonsState();
   displayImage(i);
 })
 //Code to iterate back to "previous" image, upon click we decrement the value / go back to previous image.
-document.querySelector('#previous').addEventListener('click', () => {
+previousButton.addEventListener('click', () => {
   if (i > 0) {
     i--;
     displayImage(i);//this calls the function below and updates its "index" value of i
@@ -46,12 +44,11 @@ document.querySelector('#previous').addEventListener('click', () => {
   }
 })
 //Code to iterate to "next" image, this value is added to the array i fetch in function below.
-document.querySelector('#next').addEventListener('click', () => {
+nextButton.addEventListener('click', () => {
   i++;
   displayImage(i);//this calls the function below and updates its "index" value of i
   updateButtonsState();
 })
-
 
 function displayImage(index) {
   fetch(vanGoghUrl)
@@ -103,4 +100,45 @@ function displayImage(index) {
 
 }
 
-//Egyptian art section
+//Egyptian art code
+
+//URL that collects objectID's related to egyptian art with a search query which looks for id's that contains cats
+const egyptianArtObjects = 'https://collectionapi.metmuseum.org/public/collection/v1/search?departmentId=10&q=cat';
+
+const egyptianArtPreviousButton = document.querySelector('#egyptianArtPreviousBtn');
+const egyptianArtNextButton = document.querySelector('#egyptianArtNextBtn');
+
+let n = 0;
+
+egyptianArtPreviousButton.addEventListener('click', () => {
+  if (n > 0) {
+    n--;
+    fetchEgyptianArt(n);
+
+  }
+})
+//Code to iterate to "next" image, this value is added to the array i fetch in function below.
+egyptianArtNextButton.addEventListener('click', () => {
+  n++;
+  fetchEgyptianArt(n);
+
+})
+
+function fetchEgyptianArt(num) {
+  fetch(egyptianArtObjects)
+    .then((res) => res.json())
+    .then((data) => {
+
+      console.log(data.objectIDs[num]);
+      let egyptianArtID = data.objectIDs[num];//TODO: Change 0 to num here
+
+      fetch(objectsUrl + egyptianArtID)
+        .then((res) => res.json())
+        .then((data) => {
+          const egyptianArtImage = document.querySelector('#egyptianArtImage');
+          egyptianArtImage.src = data.primaryImage;
+          egyptianArtImage.style.width = '70%';
+
+        })
+    })
+}
