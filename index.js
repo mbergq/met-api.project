@@ -33,7 +33,6 @@ noImageMessage.style.display = 'none';
 //Display images on pageload
 addEventListener('DOMContentLoaded', () => {
   updateButtonsState();
-  fetchEgyptianArt(i);
   displayImage(i);
 })
 //Code to iterate back to "previous" image, upon click we decrement the value / go back to previous image.
@@ -102,9 +101,26 @@ function displayImage(index) {
 }
 
 //Egyptian art code
+addEventListener('DOMContentLoaded', () => {
+  getUserInput = "Snake";
+  fetchEgyptianArt(i);
+})
 
 //URL that collects objectID's related to egyptian art with a search query which looks for id's that contains cats
-const egyptianArtObjects = 'https://collectionapi.metmuseum.org/public/collection/v1/search?hasImages=true&q=Snake';
+let getUserInput = "";
+
+let searchField = document.querySelector('#searchField');
+
+searchField.addEventListener('input', () => {
+  getUserInput = searchField.value;
+  console.log(getUserInput);
+})
+
+document.querySelector('#searchButton').addEventListener('click', () => {
+  fetchEgyptianArt(n);
+})
+
+let egyptianArtObjects = 'https://collectionapi.metmuseum.org/public/collection/v1/search?hasImages=true&q=';
 
 const egyptianArtPreviousButton = document.querySelector('#egyptianArtPreviousBtn');
 const egyptianArtNextButton = document.querySelector('#egyptianArtNextBtn');
@@ -127,14 +143,14 @@ egyptianArtNextButton.addEventListener('click', () => {
 })
 //Random button
 egyptianArtRandomButton.addEventListener('click', () => {
-  n = Math.floor(Math.random() * 1088);
+  n = Math.floor(Math.random() * 1088);//FIXME: Instead of a number use arr.length
   fetchEgyptianArt(n);
 
 })
 
 
 function fetchEgyptianArt(num) {
-  fetch(egyptianArtObjects)
+  fetch(egyptianArtObjects + getUserInput)
     .then((res) => res.json())
     .then((data) => {
 
