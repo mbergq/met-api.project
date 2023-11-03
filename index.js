@@ -30,9 +30,10 @@ noImageMessage.textContent = "No image available..";
 imageWrapper.appendChild(noImageMessage);
 noImageMessage.style.display = 'none';
 
-//Function which displays the first image of the array
+//Display images on pageload
 addEventListener('DOMContentLoaded', () => {
   updateButtonsState();
+  fetchEgyptianArt(i);
   displayImage(i);
 })
 //Code to iterate back to "previous" image, upon click we decrement the value / go back to previous image.
@@ -103,7 +104,7 @@ function displayImage(index) {
 //Egyptian art code
 
 //URL that collects objectID's related to egyptian art with a search query which looks for id's that contains cats
-const egyptianArtObjects = 'https://collectionapi.metmuseum.org/public/collection/v1/search?hasImages=true&q=Egyptian Art';
+const egyptianArtObjects = 'https://collectionapi.metmuseum.org/public/collection/v1/search?hasImages=true&q=Snake';
 
 const egyptianArtPreviousButton = document.querySelector('#egyptianArtPreviousBtn');
 const egyptianArtNextButton = document.querySelector('#egyptianArtNextBtn');
@@ -126,7 +127,7 @@ egyptianArtNextButton.addEventListener('click', () => {
 })
 //Random button
 egyptianArtRandomButton.addEventListener('click', () => {
-  n = Math.floor(Math.random() * 6332);
+  n = Math.floor(Math.random() * 1088);
   fetchEgyptianArt(n);
 
 })
@@ -144,7 +145,7 @@ function fetchEgyptianArt(num) {
         .then((data) => {
 
           //Temporary fix for mitigating empty primaryImage objects
-          if (data.primaryImage === '') {
+          if (data.primaryImage === '' || data.message === "Not a valid object") {
             console.log('no image');
             num++;
             fetchEgyptianArt(num);
@@ -154,6 +155,21 @@ function fetchEgyptianArt(num) {
             egyptianArtImage.src = data.primaryImage;
             egyptianArtImage.style.width = '70%';
           }
+
+          const objectName = document.querySelector('#objectName');
+          objectName.textContent = data.objectName;
+
+          const objectTitle = document.querySelector('#objectTitle');
+          objectTitle.textContent = data.title;
+
+          const description = document.querySelector('#description');
+          description.textContent = data.medium;
+
+          const objectDate = document.querySelector('#objectDate');
+          objectDate.textContent = data.objectDate;
+
+          const readMoreLink = document.querySelector('#readMoreLink');
+          readMoreLink.innerHTML = "<a href='" + data.objectURL + "'>Read more</a>";
 
         })
     })
