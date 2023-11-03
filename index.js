@@ -100,63 +100,63 @@ function displayImage(index) {
 
 }
 
-//Egyptian art code
+//User-search section
 addEventListener('DOMContentLoaded', () => {
-  getUserInput = "Snake";
-  fetchEgyptianArt(i);
+  keyword = "Snake";
+  fetchData(i);
 })
 
-//URL that collects objectID's related to egyptian art with a search query which looks for id's that contains cats
-let getUserInput = "";
+
+let keyword = "";
 
 let searchField = document.querySelector('#searchField');
 
 searchField.addEventListener('input', () => {
-  getUserInput = searchField.value;
-  console.log(getUserInput);
+  keyword = searchField.value;
+  console.log(keyword);
 })
 
 document.querySelector('#searchButton').addEventListener('click', () => {
-  fetchEgyptianArt(n);
+  fetchData(n);
 })
 
-let egyptianArtObjects = 'https://collectionapi.metmuseum.org/public/collection/v1/search?hasImages=true&q=';
+let fetchObjects = 'https://collectionapi.metmuseum.org/public/collection/v1/search?hasImages=true&q=';
 
-const egyptianArtPreviousButton = document.querySelector('#egyptianArtPreviousBtn');
-const egyptianArtNextButton = document.querySelector('#egyptianArtNextBtn');
-const egyptianArtRandomButton = document.querySelector('#egyptianArtRandomBtn');
+const userPreviousButton = document.querySelector('#userPreviousBtn');
+const userNextButton = document.querySelector('#userNextBtn');
+const userRandomButton = document.querySelector('#userRandomBtn');
 
 let n = 0;
 
-egyptianArtPreviousButton.addEventListener('click', () => {
+userPreviousButton.addEventListener('click', () => {
   if (n > 0) {
     n--;
-    fetchEgyptianArt(n);
+    fetchData(n);
 
   }
 })
 //Code to iterate to "next" image, this value is added to the array i fetch in function below.
-egyptianArtNextButton.addEventListener('click', () => {
+userNextButton.addEventListener('click', () => {
   n++;
-  fetchEgyptianArt(n);
+  fetchData(n);
 
 })
 //Random button
-egyptianArtRandomButton.addEventListener('click', () => {
+userRandomButton.addEventListener('click', () => {
   n = Math.floor(Math.random() * 1088);//FIXME: Instead of a number use arr.length
-  fetchEgyptianArt(n);
+  fetchData(n);
 
 })
 
 
-function fetchEgyptianArt(num) {
-  fetch(egyptianArtObjects + getUserInput)
+function fetchData(num) {
+  fetch(fetchObjects + keyword)
     .then((res) => res.json())
     .then((data) => {
 
-      let egyptianArtID = data.objectIDs[num];
+      let objID = data.objectIDs[num];
 
-      fetch(objectsUrl + egyptianArtID)
+      fetch(objectsUrl + objID)
         .then((res) => res.json())
         .then((data) => {
 
@@ -164,12 +164,12 @@ function fetchEgyptianArt(num) {
           if (data.primaryImage === '' || data.message === "Not a valid object") {
             console.log('no image');
             num++;
-            fetchEgyptianArt(num);
+            fetchData(num);
           } else {
             console.log(data.objectID);
-            const egyptianArtImage = document.querySelector('#egyptianArtImage');
-            egyptianArtImage.src = data.primaryImage;
-            egyptianArtImage.style.width = '70%';
+            const displayImageTag = document.querySelector('#displayImageTag');
+            displayImageTag.src = data.primaryImage;
+            displayImageTag.style.width = '70%';
           }
 
           const objectName = document.querySelector('#objectName');

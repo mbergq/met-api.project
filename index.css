@@ -24,10 +24,10 @@ body {
 /* #imageWrapper {} */
 
 /* Egyptian art section styling */
-#egyptianArtSection {
+#userSearchSection {
   display: flex;
 }
 
-#egyptianArtNavBar {
+#userSearchNavBar {
   min-width: 200px;
 }
