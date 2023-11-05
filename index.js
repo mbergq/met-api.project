@@ -106,7 +106,6 @@ addEventListener('DOMContentLoaded', () => {
   fetchData(i);
 })
 
-
 let keyword = "";
 
 let searchField = document.querySelector('#searchField');
@@ -135,16 +134,26 @@ userPreviousButton.addEventListener('click', () => {
 
   }
 })
+
 //Code to iterate to "next" image, this value is added to the array i fetch in function below.
 userNextButton.addEventListener('click', () => {
   n++;
   fetchData(n);
 
 })
+
 //Random button
 userRandomButton.addEventListener('click', () => {
-  n = Math.floor(Math.random() * 1088);//FIXME: Instead of a number use arr.length
-  fetchData(n);
+  //Fetch array.length to use as roof for randombutton
+  fetch(fetchObjects + keyword)
+    .then((res) => res.json())
+    .then((data) => {
+      n = data.objectIDs.length;
+      console.log(n);
+      rn = Math.floor(Math.random() * n);
+      console.log(rn);
+      fetchData(rn);
+    })
 
 })
 
@@ -154,6 +163,7 @@ function fetchData(num) {
     .then((res) => res.json())
     .then((data) => {
 
+      // console.log(data.objectIDs.length);
       let objID = data.objectIDs[num];
 
       fetch(objectsUrl + objID)
