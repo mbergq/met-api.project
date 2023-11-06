@@ -1,0 +1,14 @@
+body {
+  min-height: 100vh;
+  background-color: aliceblue;
+}
+
+#container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.dataContainer {
+  margin: 8px;
+}
