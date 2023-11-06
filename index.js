@@ -22,7 +22,7 @@ function updateButtonsState() {
   }
 }
 
-//Add message to display whenever there is no image available to display
+//Display message when there is no img available
 const imageWrapper = document.querySelector('#imageWrapper');
 const noImageMessage = document.createElement('h2');
 noImageMessage.classList.add('noImageMessage');
@@ -35,7 +35,7 @@ addEventListener('DOMContentLoaded', () => {
   updateButtonsState();
   displayImage(i);
 })
-//Code to iterate back to "previous" image, upon click we decrement the value / go back to previous image.
+
 previousButton.addEventListener('click', () => {
   if (i > 0) {
     i--;
@@ -43,7 +43,7 @@ previousButton.addEventListener('click', () => {
     updateButtonsState();
   }
 })
-//Code to iterate to "next" image, this value is added to the array i fetch in function below.
+
 nextButton.addEventListener('click', () => {
   i++;
   displayImage(i);//this calls the function below and updates its "index" value of i
@@ -135,7 +135,7 @@ userPreviousButton.addEventListener('click', () => {
   }
 })
 
-//Code to iterate to "next" image, this value is added to the array i fetch in function below.
+
 userNextButton.addEventListener('click', () => {
   n++;
   fetchData(n);
@@ -148,11 +148,11 @@ userRandomButton.addEventListener('click', () => {
   fetch(fetchObjects + keyword)
     .then((res) => res.json())
     .then((data) => {
-      n = data.objectIDs.length;
+      let objectIDsLength = data.objectIDs.length;
+      console.log(roof);
+      n = Math.floor(Math.random() * objectIDsLength);
       console.log(n);
-      rn = Math.floor(Math.random() * n);
-      console.log(rn);
-      fetchData(rn);
+      fetchData(n);
     })
 
 })
@@ -163,13 +163,12 @@ function fetchData(num) {
     .then((res) => res.json())
     .then((data) => {
 
-      // console.log(data.objectIDs.length);
       let objID = data.objectIDs[num];
 
       fetch(objectsUrl + objID)
         .then((res) => res.json())
         .then((data) => {
-
+          console.log(data.objectID);
           //Temporary fix for mitigating empty primaryImage objects
           if (data.primaryImage === '' || data.message === "Not a valid object") {
             console.log('no image');
