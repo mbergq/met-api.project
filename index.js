@@ -8,6 +8,7 @@ const previousButton = document.querySelector('#previous');
 const nextButton = document.querySelector('#next');
 let i = 0;
 
+//Disable/Enable buttons
 function updateButtonsState() {
   if (i > 0) {
     previousButton.disabled = false;
@@ -35,18 +36,18 @@ addEventListener('DOMContentLoaded', () => {
   updateButtonsState();
   displayImage(i);
 })
-
+//Iterate back to previous object
 previousButton.addEventListener('click', () => {
   if (i > 0) {
     i--;
-    displayImage(i);//this calls the function below and updates its "index" value of i
+    displayImage(i);
     updateButtonsState();
   }
 })
-
+//Iterate to next object
 nextButton.addEventListener('click', () => {
   i++;
-  displayImage(i);//this calls the function below and updates its "index" value of i
+  displayImage(i);
   updateButtonsState();
 })
 
@@ -55,42 +56,44 @@ function displayImage(index) {
     .then((res) => res.json())
     .then((data) => {
 
+      //Collect specific objectID to use for next fetch
       let vgID = data.objectIDs[index];
 
-      //Second fetch using vgID and an arrayfunction to iterate to next object
+      //Fetch specific data, this enables us to reach img and other info
       fetch(objectsUrl + vgID)
         .then((res) => res.json())
         .then((data) => {
           console.log(data.objectID);
 
-          //Function to display a errormessage when there is no img available to dsisplay
+          //Handle event if no image is available
           if (data.primaryImage === "") {
             document.querySelector('.noImageMessage').style.display = 'block';
           } else {
             document.querySelector('.noImageMessage').style.display = 'none';
           }
 
-          if (data.message === "Not a valid object") { //TODO: Use this if statement to display something when this happens
+          if (data.message === "Not a valid object") {
             console.log("404 Error here");
           }
 
-          let painting = document.querySelector('#imageHolderTag');
+          //Display objectinfo
+          const painting = document.querySelector('#imageHolderTag');
           painting.src = data.primaryImage;
           painting.style.width = '70%';
 
-          let artistName = document.querySelector('#artistName');
+          const artistName = document.querySelector('#artistName');
           artistName.textContent = data.constituents[0].name;
 
-          let lifespan = document.querySelector('#lifespan');
+          const lifespan = document.querySelector('#lifespan');
           lifespan.textContent = "Born: " + data.artistBeginDate + " -  Passed: " + data.artistEndDate;
 
-          let nationality = document.querySelector('#nationality');
+          const nationality = document.querySelector('#nationality');
           nationality.textContent = "Nationality: " + data.artistNationality;
 
-          let typeOfPainting = document.querySelector('#typeOfPainting');
+          const typeOfPainting = document.querySelector('#typeOfPainting');
           typeOfPainting.textContent = "Medium: " + data.medium;
 
-          let infoURL = document.querySelector('#infoURL');
+          const infoURL = document.querySelector('#infoURL');
           infoURL.innerHTML = "<a href='" + data.objectURL + "'>Additional info..</a>";
 
 
@@ -100,16 +103,21 @@ function displayImage(index) {
 
 }
 
+
+
 //User-search section
+
+let keyword = "";
+
 addEventListener('DOMContentLoaded', () => {
   keyword = "Snake";
   fetchData(i);
 })
 
-let keyword = "";
 
 let searchField = document.querySelector('#searchField');
 
+//Update value of keyword variable using input on the searchfield
 searchField.addEventListener('input', () => {
   keyword = searchField.value;
   console.log(keyword);
@@ -119,14 +127,16 @@ document.querySelector('#searchButton').addEventListener('click', () => {
   fetchData(n);
 })
 
-let fetchObjects = 'https://collectionapi.metmuseum.org/public/collection/v1/search?hasImages=true&q=';
+const fetchObjects = 'https://collectionapi.metmuseum.org/public/collection/v1/search?hasImages=true&q=';
 
 const userPreviousButton = document.querySelector('#userPreviousBtn');
 const userNextButton = document.querySelector('#userNextBtn');
 const userRandomButton = document.querySelector('#userRandomBtn');
 
+//Set starting index, n is used for iterating in an array
 let n = 0;
 
+//Iterate back to previous objectID
 userPreviousButton.addEventListener('click', () => {
   if (n > 0) {
     n--;
@@ -135,21 +145,21 @@ userPreviousButton.addEventListener('click', () => {
   }
 })
 
-
+//Iterate to next objectID
 userNextButton.addEventListener('click', () => {
   n++;
   fetchData(n);
 
 })
 
-//Random button
+//Random button that outputs a random objectID available from user keyword
 userRandomButton.addEventListener('click', () => {
   //Fetch array.length to use as roof for randombutton
   fetch(fetchObjects + keyword)
     .then((res) => res.json())
     .then((data) => {
       let objectIDsLength = data.objectIDs.length;
-      console.log(roof);
+      console.log(objectIDsLength);
       n = Math.floor(Math.random() * objectIDsLength);
       console.log(n);
       fetchData(n);
@@ -163,8 +173,10 @@ function fetchData(num) {
     .then((res) => res.json())
     .then((data) => {
 
+      //Collect ID-number to use and look at specific data in the second fetch
       let objID = data.objectIDs[num];
 
+      //Fetch specific objectID
       fetch(objectsUrl + objID)
         .then((res) => res.json())
         .then((data) => {
@@ -180,7 +192,7 @@ function fetchData(num) {
             displayImageTag.src = data.primaryImage;
             displayImageTag.style.width = '70%';
           }
-
+          //Display data info
           const objectName = document.querySelector('#objectName');
           objectName.textContent = data.objectName;
 
