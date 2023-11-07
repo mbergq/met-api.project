@@ -2,8 +2,7 @@ addEventListener('DOMContentLoaded', () => {
   fetch('https://avancera.app/cities/')
     .then((res) => res.json())
     .then((data) => {
-      console.log(data.length);
-      console.log(document.querySelectorAll('.dataContainer')[3]);
+      console.log(data);
 
       //Create elements with data from API
       for (let i = 0; i < data.length; i++) {
@@ -32,15 +31,28 @@ const form = document.querySelector('#form');
 form.addEventListener('submit', (e) => {
   e.preventDefault();
 
-  const info = new FormData(form);
-  console.log(info);
+  //Get value of first field
+  const getNameValue = document.querySelector('#cityName').value;
+  //Get value from second inputfield and convert it to a number
+  let getPopulationValue = document.querySelector('#population').value * 1;
+
+
+  console.log(getPopulationValue);
+
+  //Put values into an object
+  const data = {
+    name: getNameValue,
+    population: getPopulationValue
+  }
+
 
   fetch('https://avancera.app/cities/', {
-    body: info,
+    method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
-    method: 'POST'
+    //Convert our JavaScript value into JSON value before posting
+    body: JSON.stringify(data)
   })
     .then(res => res.json())
     .then(data => console.log(data))
