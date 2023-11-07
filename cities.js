@@ -89,3 +89,17 @@ postForm.addEventListener('submit', (e) => {
   })
     .then(res => console.log(res));
 })
+
+//DELETE function
+const deleteForm = document.querySelector('#deleteForm');
+
+deleteForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+
+  const getCityIdToDelete = document.querySelector('#delete').value;
+
+  fetch('https://avancera.app/cities/' + `${getCityIdToDelete}`, {
+    method: 'DELETE'
+  }).then(res => console.log(res));
+
+})
