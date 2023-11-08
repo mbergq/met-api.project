@@ -104,7 +104,6 @@ function displayImage(index) {
 }
 
 
-
 //User-search section
 
 let keyword = "";
@@ -124,6 +123,7 @@ searchField.addEventListener('input', () => {
 })
 
 document.querySelector('#searchButton').addEventListener('click', () => {
+  keyword = searchField.value;
   fetchData(n);
 })
 
