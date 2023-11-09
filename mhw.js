@@ -75,7 +75,7 @@ const monsterArray = fetchData().then(data => {
   };
   let setRandomColor = [];
 
-
+  //Set values of the variables in an array
   let specieValues = [herbivore, fangedWyvern, wingdrake, neopteron, fish, birdWyvern, bruteWyvern, piscineWyvern, flyingWyvern, elderDragon, relict, fangedBeast];
   console.log(specieValues.length);
 
@@ -83,22 +83,21 @@ const monsterArray = fetchData().then(data => {
     setRandomColor.push(randomRgbColor());
   }
 
-  let specieLabels;
-
-  specieLabels = data.map(index => index.species);
+  //Get all specienames
+  let specieLabels = data.map(index => index.species)
+  //Filter out duplicate names and put them into an array
   specieLabels = [... new Set(specieLabels)];
+
   const monstersChart = new Chart("monstersChart", {
     type: "bar",
     data: {
       labels: specieLabels,
       datasets: [{
-        label: "A chart displaying how many monsters is in each speciescategory",
+        label: "Amount of monsters in this category",
         backgroundColor: setRandomColor,
         data: specieValues
       }],
-      options: {
-        barValueSpacing: 1,//Not working
-      }
+      options: {}
     }
   });
 
