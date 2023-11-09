@@ -6,6 +6,8 @@ const objectsUrl = 'https://collectionapi.metmuseum.org/public/collection/v1/obj
 
 const previousButton = document.querySelector('#previous');
 const nextButton = document.querySelector('#next');
+const randomButton = document.querySelector('#random');
+//Set index value
 let i = 0;
 
 //Disable/Enable buttons
@@ -50,6 +52,12 @@ nextButton.addEventListener('click', () => {
   displayImage(i);
   updateButtonsState();
 })
+//Random
+randomButton.addEventListener('click', () => {
+  i = Math.floor(Math.random() * 423);
+  console.log(i);
+  displayImage(i);
+})
 
 function displayImage(index) {
   fetch(vanGoghUrl)
@@ -82,7 +90,7 @@ function displayImage(index) {
           painting.style.width = '70%';
 
           const artistName = document.querySelector('#artistName');
-          artistName.textContent = data.constituents[0].name;
+          artistName.textContent = "Artist: " + data.constituents[0].name;
 
           const lifespan = document.querySelector('#lifespan');
           lifespan.textContent = "Born: " + data.artistBeginDate + " -  Passed: " + data.artistEndDate;
