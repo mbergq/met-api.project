@@ -22,8 +22,9 @@ const monsterArray = fetchData().then(data => {
   let elderDragon = 0;
   let relict = 0;
   let fangedBeast = 0;
+
   for (let i = 0; i < data.length; i++) {
-    //Count which location most monsters reside
+
     switch (data[i].species) {
 
       case "herbivore":
@@ -66,33 +67,33 @@ const monsterArray = fetchData().then(data => {
     }
 
   }
-  //Values to use and compare in chart
-  console.log(herbivore);
-  console.log(fangedWyvern);
-  console.log(wingdrake);
-  console.log(neopteron);
-  console.log(fish);
-  console.log(birdWyvern);
-  console.log(bruteWyvern);
-  console.log(piscineWyvern);
-  console.log(flyingWyvern);
-  console.log(elderDragon);
-  console.log(relict);
-  console.log(fangedBeast);
+  const randomRgbColor = () => {
+    let r = Math.floor(Math.random() * 256);
+    let g = Math.floor(Math.random() * 256);
+    let b = Math.floor(Math.random() * 256);
+    return 'rgb(' + r + ',' + g + ',' + b + ')';
+  };
+  let setRandomColor = [];
+
 
   let specieValues = [herbivore, fangedWyvern, wingdrake, neopteron, fish, birdWyvern, bruteWyvern, piscineWyvern, flyingWyvern, elderDragon, relict, fangedBeast];
-  console.log(specieValues);
+  console.log(specieValues.length);
 
-  let arr;
+  for (let i = 0; i < specieValues.length; i++) {
+    setRandomColor.push(randomRgbColor());
+  }
 
-  arr = data.map(index => index.species);
-  arr = [... new Set(arr)];
+  let specieLabels;
+
+  specieLabels = data.map(index => index.species);
+  specieLabels = [... new Set(specieLabels)];
   const monstersChart = new Chart("monstersChart", {
     type: "bar",
     data: {
-      labels: arr,
+      labels: specieLabels,
       datasets: [{
-        backgroundColor: ["Red"],
+        label: "A chart displaying how many monsters is in each speciescategory",
+        backgroundColor: setRandomColor,
         data: specieValues
       }],
       options: {
