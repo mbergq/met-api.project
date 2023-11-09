@@ -7,90 +7,98 @@ async function fetchData() {
   return data;
 }
 
-//Create an array of all monster names, this can be used as data-labels for a chart
 const monsterArray = fetchData().then(data => {
-  let arr;
+
+  //Count species
+  let herbivore = 0;
+  let fangedWyvern = 0;
+  let wingdrake = 0;
+  let neopteron = 0;
+  let fish = 0;
+  let birdWyvern = 0;
+  let bruteWyvern = 0;
+  let piscineWyvern = 0;
+  let flyingWyvern = 0;
+  let elderDragon = 0;
+  let relict = 0;
+  let fangedBeast = 0;
   for (let i = 0; i < data.length; i++) {
-    arr = data.map(index => index.name);
-  }
-  let yValues = [55, 20, 23];
-  const monstersChart = new Chart("monstersChart", {
-    type: "bar",
-    data: {
-      labels: arr,
-      datasets: [{
-        backgroundColor: ["Red"],
-        data: yValues
-      }],
-      options: {}
-    }
-  });
-  console.log(arr);
-
-});
-
-//Count
-fetchData().then(data => {
-  console.log(data.length);
-  let ancientForest = 0;
-  let wildspireWaste = 0;
-  let coralHighlands = 0;
-  let rottenVale = 0;
-  let eldersRecess = 0;
-  let cavernsOfElDorado = 0;
-  let confluenceOfFates = 0;
-  let secludedValley = 0;
-  let guidingLands = 0;
-  let hoarfrostReach = 0;
-  for (let i = 0; i < data.length; i++) {
-
     //Count which location most monsters reside
-    switch (data[i].locations[0].name) {
+    switch (data[i].species) {
 
-      case "Ancient Forest":
-        ancientForest++;
+      case "herbivore":
+        herbivore++;
         break;
-      case "Wildspire Waste":
-        wildspireWaste++;
+      case "fanged wyvern":
+        fangedWyvern++;
         break;
-      case "Coral Highlands":
-        coralHighlands++;
+      case "wingdrake":
+        wingdrake++;
         break;
-      case "Rotten Vale":
-        rottenVale++;
+      case "neopteron":
+        neopteron++;
         break;
-      case "Elder's Recess":
-        eldersRecess++;
+      case "fish":
+        fish++;
         break;
-      case "Caverns of El Dorado":
-        cavernsOfElDorado++;
+      case "bird wyvern":
+        birdWyvern++;
         break;
-      case "Confluence of Fates":
-        confluenceOfFates++;
+      case "brute wyvern":
+        bruteWyvern++;
         break;
-      case "Secluded Valley":
-        secludedValley++;
+      case "piscine wyvern":
+        piscineWyvern++;
         break;
-      case "Guiding Lands":
-        guidingLands++;
+      case "flying wyvern":
+        flyingWyvern++;
         break;
-      case "Hoarfrost Reach":
-        hoarfrostReach++;
+      case "elder dragon":
+        elderDragon++;
+        break;
+      case "relict":
+        relict++;
+        break;
+      case "fanged beast":
+        fangedBeast++
         break;
 
     }
 
   }
   //Values to use and compare in chart
-  console.log(ancientForest);
-  console.log(wildspireWaste);
-  console.log(coralHighlands);
-  console.log(rottenVale);
-  console.log(eldersRecess);
-  console.log(cavernsOfElDorado);
-  console.log(confluenceOfFates);
-  console.log(secludedValley);
-  console.log(guidingLands);
-  console.log(hoarfrostReach);
+  console.log(herbivore);
+  console.log(fangedWyvern);
+  console.log(wingdrake);
+  console.log(neopteron);
+  console.log(fish);
+  console.log(birdWyvern);
+  console.log(bruteWyvern);
+  console.log(piscineWyvern);
+  console.log(flyingWyvern);
+  console.log(elderDragon);
+  console.log(relict);
+  console.log(fangedBeast);
 
-})
+  let specieValues = [herbivore, fangedWyvern, wingdrake, neopteron, fish, birdWyvern, bruteWyvern, piscineWyvern, flyingWyvern, elderDragon, relict, fangedBeast];
+  console.log(specieValues);
+
+  let arr;
+
+  arr = data.map(index => index.species);
+  arr = [... new Set(arr)];
+  const monstersChart = new Chart("monstersChart", {
+    type: "bar",
+    data: {
+      labels: arr,
+      datasets: [{
+        backgroundColor: ["Red"],
+        data: specieValues
+      }],
+      options: {
+        barValueSpacing: 1,//Not working
+      }
+    }
+  });
+
+});
