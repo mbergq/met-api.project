@@ -1,3 +1,4 @@
+localStorage
 //URL to fetch object ID's that is mainly about or related to the artist Vincent van Gogh
 const vanGoghUrl = 'https://collectionapi.metmuseum.org/public/collection/v1/search?hasImages=true&q=van Gogh'
 
@@ -33,6 +34,9 @@ noImageMessage.textContent = "No image available..";
 imageWrapper.appendChild(noImageMessage);
 noImageMessage.style.display = 'none';
 
+localStorage.setItem('artist', 'Martin Berg');
+let val = localStorage.getItem('artist');
+console.log(val);
 //Display images on pageload
 addEventListener('DOMContentLoaded', () => {
   updateButtonsState();
@@ -71,8 +75,11 @@ function displayImage(index) {
       fetch(objectsUrl + vgID)
         .then((res) => res.json())
         .then((data) => {
-          console.log(data.objectID);
-
+          sessionStorage.setItem("info", JSON.stringify(data)); //Save data from fetch in sessionstorage
+          let collectImage = sessionStorage.getItem("info"); //Get sessionstorage data, this is a string currently
+          console.log(collectImage);
+          let picture = JSON.parse(collectImage); //Parse the string data in to JSON making it accessible again
+          console.log(picture.primaryImage); //This outputs correct primary image since it's now json and works similarly as fetch.data
           //Handle event if no image is available
           if (data.primaryImage === "") {
             document.querySelector('.noImageMessage').style.display = 'block';
