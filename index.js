@@ -8,18 +8,16 @@ const objectsUrl = 'https://collectionapi.metmuseum.org/public/collection/v1/obj
 const previousButton = document.querySelector('#previous');
 const nextButton = document.querySelector('#next');
 const randomButton = document.querySelector('#random');
-//Set index value
-let i = 0;
 
 //Disable/Enable buttons
 function updateButtonsState() {
-  if (i > 0) {
+  if (indexValueFromStorage > 0) {
     previousButton.disabled = false;
   } else {
     previousButton.disabled = true;
   }
 
-  if (i === 423) {
+  if (indexValueFromStorage === 423) {
     nextButton.disabled = true;
   } else {
     nextButton.disabled = false;
@@ -34,93 +32,82 @@ noImageMessage.textContent = "No image available..";
 imageWrapper.appendChild(noImageMessage);
 noImageMessage.style.display = 'none';
 
-localStorage.setItem('artist', 'Martin Berg');
-let val = localStorage.getItem('artist');
-console.log(val);
-//Display images on pageload
-addEventListener('DOMContentLoaded', () => {
+//Set index value
+let indexValueFromStorage = parseInt(localStorage.getItem("currentIndex"));
+console.log(indexValueFromStorage);
+
+const getData = async (index) => {
+  const response = await fetch(vanGoghUrl);
+  const data = await response.json();
+  let vgID = data.objectIDs[index];
+
+  const objectResponse = await fetch(objectsUrl + vgID);
+  const objectData = await objectResponse.json();
+  console.log(objectData);
+  localStorage.setItem("currentIndex", index);
+  localStorage.setItem("info", JSON.stringify(objectData));
+
+  return objectData; //Return objectinfo
+}
+
+const displayData = async () => {
+
+  let objectData;
+  objectData = await getData(indexValueFromStorage);//Wait for function to return correct data and index
   updateButtonsState();
-  displayImage(i);
-})
+
+  let currentIndex = localStorage.getItem("currentIndex");
+  console.log(currentIndex);
+
+  const painting = document.querySelector('#imageHolderTag');
+  painting.src = objectData.primaryImage;
+  painting.style.width = '70%';
+
+  const artistName = document.querySelector('#artistName');
+  artistName.textContent = "Artist: " + objectData.constituents[0].name;
+
+  const lifespan = document.querySelector('#lifespan');
+  lifespan.textContent = "Born: " + objectData.artistBeginDate + " -  Passed: " + objectData.artistEndDate;
+
+  const nationality = document.querySelector('#nationality');
+  nationality.textContent = "Nationality: " + objectData.artistNationality;
+
+  const typeOfPainting = document.querySelector('#typeOfPainting');
+  typeOfPainting.textContent = "Medium: " + objectData.medium;
+
+  const infoURL = document.querySelector('#infoURL');
+  infoURL.innerHTML = "<a href='" + objectData.objectURL + "'>Additional info..</a>";
+
+}
+displayData();//Call the function to display data on pageload
+
 //Iterate back to previous object
 previousButton.addEventListener('click', () => {
-  if (i > 0) {
-    i--;
-    displayImage(i);
+  if (indexValueFromStorage > 0) {
+    indexValueFromStorage--;
     updateButtonsState();
+    getData(indexValueFromStorage);
+    displayData();
   }
 })
 //Iterate to next object
 nextButton.addEventListener('click', () => {
-  i++;
-  displayImage(i);
+  indexValueFromStorage++;
   updateButtonsState();
+  getData(indexValueFromStorage);
+  displayData()
 })
 //Random
 randomButton.addEventListener('click', () => {
-  i = Math.floor(Math.random() * 423);
-  console.log(i);
-  displayImage(i);
+  indexValueFromStorage = Math.floor(Math.random() * 423);
+  console.log(indexValueFromStorage);
+  getData(indexValueFromStorage);
+  displayData()
 })
-
-function displayImage(index) {
-  fetch(vanGoghUrl)
-    .then((res) => res.json())
-    .then((data) => {
-
-      //Collect specific objectID to use for next fetch
-      let vgID = data.objectIDs[index];
-
-      //Fetch specific data, this enables us to reach img and other info
-      fetch(objectsUrl + vgID)
-        .then((res) => res.json())
-        .then((data) => {
-          sessionStorage.setItem("info", JSON.stringify(data)); //Save data from fetch in sessionstorage
-          let collectImage = sessionStorage.getItem("info"); //Get sessionstorage data, this is a string currently
-          console.log(collectImage);
-          let picture = JSON.parse(collectImage); //Parse the string data in to JSON making it accessible again
-          console.log(picture.primaryImage); //This outputs correct primary image since it's now json and works similarly as fetch.data
-          //Handle event if no image is available
-          if (data.primaryImage === "") {
-            document.querySelector('.noImageMessage').style.display = 'block';
-          } else {
-            document.querySelector('.noImageMessage').style.display = 'none';
-          }
-
-          if (data.message === "Not a valid object") {
-            console.log("404 Error here");
-          }
-
-          //Display objectinfo
-          const painting = document.querySelector('#imageHolderTag');
-          painting.src = data.primaryImage;
-          painting.style.width = '70%';
-
-          const artistName = document.querySelector('#artistName');
-          artistName.textContent = "Artist: " + data.constituents[0].name;
-
-          const lifespan = document.querySelector('#lifespan');
-          lifespan.textContent = "Born: " + data.artistBeginDate + " -  Passed: " + data.artistEndDate;
-
-          const nationality = document.querySelector('#nationality');
-          nationality.textContent = "Nationality: " + data.artistNationality;
-
-          const typeOfPainting = document.querySelector('#typeOfPainting');
-          typeOfPainting.textContent = "Medium: " + data.medium;
-
-          const infoURL = document.querySelector('#infoURL');
-          infoURL.innerHTML = "<a href='" + data.objectURL + "'>Additional info..</a>";
-
-
-        })
-
-    })
-
-}
 
 
 //User-search section
-
+let i = 0;
 let keyword = "";
 
 addEventListener('DOMContentLoaded', () => {
