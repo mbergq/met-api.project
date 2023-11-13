@@ -1,4 +1,3 @@
-localStorage
 //URL to fetch object ID's that is mainly about or related to the artist Vincent van Gogh
 const vanGoghUrl = 'https://collectionapi.metmuseum.org/public/collection/v1/search?hasImages=true&q=van Gogh'
 
@@ -77,6 +76,9 @@ const displayData = async () => {
 
   const infoURL = document.querySelector('#infoURL');
   infoURL.innerHTML = "<a href='" + objectData.objectURL + "'>Additional info..</a>";
+
+  const creditLine = document.querySelector('#creditLine');
+  creditLine.textContent = "Credit line: " + objectData.creditLine;
 
 }
 displayData();//Call the function to display data on pageload
@@ -209,6 +211,9 @@ function fetchData(num) {
 
           const readMoreLink = document.querySelector('#readMoreLink');
           readMoreLink.innerHTML = "<a href='" + data.objectURL + "'>Read more</a>";
+
+          const searchCreditLine = document.querySelector('#searchCreditLine');
+          searchCreditLine.textContent = "Credit line: " + data.creditLine;
 
         })
     })
