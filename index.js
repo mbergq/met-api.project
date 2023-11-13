@@ -201,15 +201,12 @@ function fetchData(num) {
           console.log(data.objectID);
           //Temporary fix for mitigating empty primaryImage objects
           if (data.primaryImage === '' || data.message === "Not a valid object") {
-            console.log('no image');
-            num++;
-            fetchData(num);
-          } else {
-            console.log(data.objectID);
-            const displayImageTag = document.querySelector('#displayImageTag');
-            displayImageTag.src = data.primaryImage;
-            displayImageTag.style.width = '70%';
+            console.log("Empty objects..");
           }
+
+          const displayImageTag = document.querySelector('#displayImageTag');
+          displayImageTag.src = data.primaryImage;
+          displayImageTag.style.width = '70%';
           //Display data info
           const objectName = document.querySelector('#objectName');
           objectName.textContent = data.objectName;
