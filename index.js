@@ -129,7 +129,21 @@ searchField.addEventListener('input', () => {
 document.querySelector('#searchButton').addEventListener('click', () => {
   keyword = searchField.value;
   fetchData(n);
+  clearSearchField();
 })
+
+document.querySelector('#searchField').addEventListener('keydown', (e) => {
+  if (e.keyCode === 13) {
+    keyword = searchField.value;
+    fetchData(n);
+    clearSearchField();
+  }
+})
+
+//Clear searchfield
+function clearSearchField() {
+  searchField.value = null;
+}
 
 const fetchObjects = 'https://collectionapi.metmuseum.org/public/collection/v1/search?hasImages=true&q=';
 
