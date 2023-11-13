@@ -1,0 +1,15 @@
+body {
+  min-height: 100vh;
+  background-color: bisque;
+}
+
+#container {
+  display: flex;
+  flex-grow: 1;
+  flex-wrap: wrap;
+  width: 500px;
+}
+
+.box {
+  margin: 2px;
+}
