@@ -76,7 +76,19 @@ const monsterArray = fetchData().then(data => {
   let setRandomColor = [];
 
   //Set values of the variables in an array
-  let specieValues = [herbivore, fangedWyvern, wingdrake, neopteron, fish, birdWyvern, bruteWyvern, piscineWyvern, flyingWyvern, elderDragon, relict, fangedBeast];
+  let specieValues = [
+    herbivore,
+    fangedWyvern,
+    wingdrake,
+    neopteron,
+    fish,
+    birdWyvern,
+    bruteWyvern,
+    piscineWyvern,
+    flyingWyvern,
+    elderDragon,
+    relict,
+    fangedBeast];
   console.log(specieValues.length);
 
   for (let i = 0; i < specieValues.length; i++) {
