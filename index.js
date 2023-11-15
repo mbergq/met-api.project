@@ -42,7 +42,6 @@ const getData = async (index) => {
 
   const objectResponse = await fetch(objectsUrl + vgID);
   const objectData = await objectResponse.json();
-  console.log(objectData);
   localStorage.setItem("currentIndex", index);
   localStorage.setItem("info", JSON.stringify(objectData));
 
@@ -56,8 +55,7 @@ const displayData = async () => {
   updateButtonsState();
 
   let currentIndex = localStorage.getItem("currentIndex");
-  console.log(currentIndex);
-
+  console.log(objectData);
   const painting = document.querySelector('#imageHolderTag');
   painting.src = objectData.primaryImage;
   painting.style.width = '70%';
@@ -131,7 +129,7 @@ document.querySelector('#searchButton').addEventListener('click', () => {
   fetchData(n);
   clearSearchField();
 })
-
+//Let user search upon pressing "Enter"
 document.querySelector('#searchField').addEventListener('keydown', (e) => {
   if (e.keyCode === 13) {
     keyword = searchField.value;
@@ -159,7 +157,6 @@ userPreviousButton.addEventListener('click', () => {
   if (n > 0) {
     n--;
     fetchData(n);
-
   }
 })
 
@@ -167,7 +164,6 @@ userPreviousButton.addEventListener('click', () => {
 userNextButton.addEventListener('click', () => {
   n++;
   fetchData(n);
-
 })
 
 //Random button that outputs a random objectID available from user keyword
@@ -187,10 +183,13 @@ userRandomButton.addEventListener('click', () => {
 
 
 function fetchData(num) {
+  //Fetch via keyword query that user inputs
   fetch(fetchObjects + keyword)
     .then((res) => res.json())
     .then((data) => {
-
+      //Display how many objects there is available on current searchword
+      let searchQueryInfo = document.querySelector('#searchQueryInfo');
+      searchQueryInfo.textContent = "There is a total of " + data.total + " objects available on this searchquery for you to look at";
       //Collect ID-number to use and look at specific data in the second fetch
       let objID = data.objectIDs[num];
 
@@ -198,7 +197,6 @@ function fetchData(num) {
       fetch(objectsUrl + objID)
         .then((res) => res.json())
         .then((data) => {
-          console.log(data.objectID);
           //Temporary fix for mitigating empty primaryImage objects
           if (data.primaryImage === '' || data.message === "Not a valid object") {
             console.log("Empty objects..");
@@ -209,16 +207,16 @@ function fetchData(num) {
           displayImageTag.style.width = '70%';
           //Display data info
           const objectName = document.querySelector('#objectName');
-          objectName.textContent = data.objectName;
+          objectName.textContent = "Object: " + data.objectName;
 
           const objectTitle = document.querySelector('#objectTitle');
-          objectTitle.textContent = data.title;
+          objectTitle.textContent = "Title: " + data.title;
 
           const description = document.querySelector('#description');
-          description.textContent = data.medium;
+          description.textContent = "Medium: " + data.medium;
 
           const objectDate = document.querySelector('#objectDate');
-          objectDate.textContent = data.objectDate;
+          objectDate.textContent = "Object date: " + data.objectDate;
 
           const readMoreLink = document.querySelector('#readMoreLink');
           readMoreLink.innerHTML = "<a href='" + data.objectURL + "'>Read more</a>";
