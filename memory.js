@@ -16,7 +16,7 @@ const shuffle = function (array) {
     array[j] = value;
   };
   return array;
-};
+}
 
 //Shuffle the array to output cards in random order
 const shuffledArray = shuffle(idArray);
@@ -29,6 +29,8 @@ let activeCard = null;
 let awaitingEndOfMove = false;
 
 const generateCards = async () => {
+  //Disable button to prevent user from generating while fetch is working
+  document.querySelector('#generateCardsButton').disabled = true;
 
   //Clear cards before generating new ones
   clearCards();
@@ -81,9 +83,6 @@ const generateCards = async () => {
       //Get object ID from active card to use for check later
       const cardToMatch = activeCard.getAttribute('data-name');
 
-      console.log(cardToMatch);
-      console.log(e.target.dataset.name);
-
       //Matching cards check
       if (cardToMatch === e.target.dataset.name) {
         /* Set cards to "revealed", this state is needed to prevent user from running
@@ -94,10 +93,11 @@ const generateCards = async () => {
         awaitingEndOfMove = false;
         activeCard = null;
         scoreCount += 2;
-        console.log("A match! Cards are locked");
 
         if (scoreCount === cardCount) {
-          alert("You win! Refresh to play again");
+          document.querySelector('#gameStateHeader').textContent =
+            'You won! Good job. Press start to play a new game';
+          document.querySelector('#gameStateHeader').style.display = 'block';
         }
 
         return;
@@ -118,7 +118,12 @@ const generateCards = async () => {
 
 
     });
+
   }
+  //Enable button again after fetch is done / cards are generated
+  document.querySelector('#generateCardsButton').disabled = false;
+  document.querySelector('#gameStateHeader').style.display = 'block';
+  document.querySelector('#gameStateHeader').textContent = 'Cards are set!';
   console.log("Done..");
 
 }
@@ -127,6 +132,7 @@ const generateCardsButton = document.querySelector('#generateCardsButton');
 
 generateCardsButton.addEventListener('click', () => {
   generateCards();
+  document.querySelector('#gameStateHeader').style.display = 'none';
 })
 //Function that clears existing cards in the container, will run before generateCards function runs
 function clearCards() {
