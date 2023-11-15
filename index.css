@@ -38,5 +38,12 @@ body {
 }
 
 #userSearchSection {
-  margin-top: 8rem;
+  margin-top: 4rem;
+}
+
+#searchQueryInfo {
+  border-top: solid 2px black;
+  padding-top: 12px;
+  margin-top: 12px;
+  /* font-style: italic; */
 }
