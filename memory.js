@@ -29,6 +29,10 @@ let activeCard = null;
 let awaitingEndOfMove = false;
 
 const generateCards = async () => {
+
+  //Clear cards before generating new ones
+  clearCards();
+
   /* Setup loop before fetching since i want to fetch 24 different images
   by using my array as help to get correct ID's */
   for (let i = 0; i < 24; i++) {
@@ -115,7 +119,19 @@ const generateCards = async () => {
 
     });
   }
-
+  console.log("Done..");
 
 }
-generateCards();
+
+const generateCardsButton = document.querySelector('#generateCardsButton');
+
+generateCardsButton.addEventListener('click', () => {
+  generateCards();
+})
+//Function that clears existing cards in the container, will run before generateCards function runs
+function clearCards() {
+  const container = document.getElementById('container');
+  while (container.firstChild) {
+    container.removeChild(container.firstChild);
+  }
+}
