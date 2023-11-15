@@ -1,15 +1,27 @@
 body {
   min-height: 100vh;
-  background-color: bisque;
+  background-color: #d4896a;
 }
 
 #container {
-  display: flex;
-  flex-grow: 1;
-  flex-wrap: wrap;
-  width: 500px;
+  margin: 42px auto;
+
+  width: max-content;
+  display: grid;
+  grid-template-columns: repeat(4, 160px);
+  gap: 16px;
 }
 
 .box {
-  margin: 2px;
+  height: 160px;
+  background: #503c52;
+
+  border: 3px solid #ffbb6c;
+  cursor: pointer;
+}
+
+.image {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
 }
