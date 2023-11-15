@@ -1,12 +1,13 @@
 body {
   min-height: 100vh;
-  background-color: #88a2bc;
+  background-color: #efb680;
 }
 
 #header {
   min-height: 220px;
   text-align: center;
   font-size: 2rem;
+  font-weight: lighter;
 }
 
 #vanGoghartDisplaySection {
@@ -30,4 +31,12 @@ body {
 
 #userSearchNavBar {
   min-width: 200px;
+}
+
+#displayImageTag {
+  margin-left: 4rem;
+}
+
+#userSearchSection {
+  margin-top: 8rem;
 }
