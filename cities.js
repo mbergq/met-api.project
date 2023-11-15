@@ -1,9 +1,13 @@
-addEventListener('DOMContentLoaded', () => {
+
+document.querySelector('#updateCitiesButton').addEventListener('click', () => {
+  //Clear searchfield values
+  clearSearchFields();
+  //Clear existing data before generating new
+  clearData();
   fetch('https://avancera.app/cities/')
     .then((res) => res.json())
     .then((data) => {
       console.log(data);
-
       //Create elements with data from API
       for (let i = 0; i < data.length; i++) {
         //Create containers for data info
@@ -103,3 +107,19 @@ deleteForm.addEventListener('submit', (e) => {
   }).then(res => console.log(res));
 
 })
+
+function clearSearchFields() {
+  document.querySelector('#cityNamePOST').value = null;
+  document.querySelector('#populationPOST').value = null;
+  document.querySelector('#cityNamePUT').value = null;
+  document.querySelector('#populationPUT').value = null;
+  document.querySelector('#cityIdPUT').value = null;
+  document.querySelector('#delete').value = null;
+}
+
+function clearData() {
+  const container = document.getElementById('container');
+  while (container.firstChild) {
+    container.removeChild(container.firstChild);
+  }
+}
