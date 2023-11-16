@@ -7,9 +7,10 @@ async function fetchData() {
   return data;
 }
 
+//Use fetched data
 const monsterArray = fetchData().then(data => {
 
-  //Count species
+  //Declare variables to later count species
   let herbivore = 0;
   let fangedWyvern = 0;
   let wingdrake = 0;
@@ -24,7 +25,7 @@ const monsterArray = fetchData().then(data => {
   let fangedBeast = 0;
 
   for (let i = 0; i < data.length; i++) {
-
+    //Count species
     switch (data[i].species) {
 
       case "herbivore":
@@ -67,6 +68,7 @@ const monsterArray = fetchData().then(data => {
     }
 
   }
+  //Setup random numbers to use for rgb colors
   const randomRgbColor = () => {
     let r = Math.floor(Math.random() * 256);
     let g = Math.floor(Math.random() * 256);
@@ -75,7 +77,7 @@ const monsterArray = fetchData().then(data => {
   };
   let setRandomColor = [];
 
-  //Set values of the variables in an array
+  //Put values of the variables in an array
   let specieValues = [
     herbivore,
     fangedWyvern,
