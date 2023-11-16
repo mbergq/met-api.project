@@ -6,14 +6,23 @@ body {
 #container {
   margin: 42px auto;
 
+  height: 20vh;
   width: max-content;
   display: grid;
-  grid-template-columns: repeat(4, 160px);
+  grid-template-columns: repeat(4, 140px);
   gap: 16px;
 }
 
+#contentWrapper {
+  display: flex;
+}
+
+nav {
+  height: fit-content;
+}
+
 .box {
-  height: 160px;
+  height: 140px;
   background: #503c52;
 
   border: 3px solid #ffbb6c;
@@ -24,4 +33,25 @@ body {
   height: 100%;
   width: 100%;
   object-fit: cover;
+}
+
+
+@media screen and (max-width: 1400px) {
+  #container {
+    grid-template-columns: repeat(4, 98px);
+  }
+
+  .box {
+    height: 98px;
+  }
+}
+
+@media screen and (min-height: 1200px) {
+  #container {
+    grid-template-columns: repeat(4, 160px);
+  }
+
+  .box {
+    height: 160px;
+  }
 }

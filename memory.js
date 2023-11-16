@@ -1,6 +1,8 @@
 //URL to use with ID-nums of the array
 const url = 'https://collectionapi.metmuseum.org/public/collection/v1/objects/'
 
+const generateCardsButton = document.querySelector('#generateCardsButton');
+
 //Array of ID's that has images
 const idArray = [436526, 438722, 437998, 336327, 436527, 436531, 436530, 436532,
   436529, 436528, 436535, 437984, 436526, 438722, 437998, 336327, 436527, 436531,
@@ -30,7 +32,7 @@ let awaitingEndOfMove = false;
 
 const generateCards = async () => {
   //Disable button to prevent user from generating while fetch is working
-  document.querySelector('#generateCardsButton').disabled = true;
+  generateCardsButton.disabled = true;
 
   //Clear cards before generating new ones
   clearCards();
@@ -59,8 +61,6 @@ const generateCards = async () => {
     document.querySelectorAll('.image')[i].setAttribute("data-name", data.objectID);
     document.querySelectorAll('.image')[i].setAttribute("data-revealed", "false");
 
-    //Set attribute to elements to make them unique, needed to identify which card is chosen later
-    //Also setting a state to "false" to be able to know if it has been clicked on or not
     document.querySelectorAll('.box')[i].setAttribute("data-name", data.objectID);
     document.querySelectorAll('.box')[i].setAttribute("data-revealed", "false");
 
@@ -121,14 +121,12 @@ const generateCards = async () => {
 
   }
   //Enable button again after fetch is done / cards are generated
-  document.querySelector('#generateCardsButton').disabled = false;
+  generateCardsButton.disabled = false;
   document.querySelector('#gameStateHeader').style.display = 'block';
   document.querySelector('#gameStateHeader').textContent = 'Cards are set!';
   console.log("Done..");
 
 }
-
-const generateCardsButton = document.querySelector('#generateCardsButton');
 
 generateCardsButton.addEventListener('click', () => {
   generateCards();
