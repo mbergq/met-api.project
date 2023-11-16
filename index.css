@@ -19,7 +19,7 @@ body {
 }
 
 #imageWrapper {
-  max-width: 780px;
+  max-width: 500px;
   height: max-content;
   margin-left: 4rem;
 }
@@ -43,7 +43,7 @@ body {
 }
 
 #userDisplayImageWrapper {
-  max-width: 780px;
+  max-width: 500px;
   height: max-content;
   margin-left: 4rem;
 }
