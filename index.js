@@ -3,7 +3,7 @@ const vanGoghUrl = 'https://collectionapi.metmuseum.org/public/collection/v1/sea
 
 //Then i use this URL to to gather specific data about a specific objectID, the URL above only returns ID's that is available
 const objectsUrl = 'https://collectionapi.metmuseum.org/public/collection/v1/objects/'
-
+const loader = document.querySelector('.la-ball-spin-clockwise-fade-rotating');
 const previousButton = document.querySelector('#previous');
 const nextButton = document.querySelector('#next');
 const randomButton = document.querySelector('#random');
@@ -36,10 +36,12 @@ let indexValueFromStorage = parseInt(localStorage.getItem("currentIndex"));
 console.log(indexValueFromStorage);
 
 const getData = async (index) => {
+  //Display loader
+  loader.style.display = 'block';
+
   const response = await fetch(vanGoghUrl);
   const data = await response.json();
   let vgID = data.objectIDs[index];
-
   const objectResponse = await fetch(objectsUrl + vgID);
   const objectData = await objectResponse.json();
   localStorage.setItem("currentIndex", index);
@@ -49,9 +51,10 @@ const getData = async (index) => {
 }
 
 const displayData = async () => {
-
   let objectData;
   objectData = await getData(indexValueFromStorage);//Wait for function to return correct data and index
+  //Hide loader when fetch is done
+  loader.style.display = 'none';
   updateButtonsState();
 
   let currentIndex = localStorage.getItem("currentIndex");
@@ -113,7 +116,6 @@ addEventListener('DOMContentLoaded', () => {
   keyword = "Snake";
   fetchData(i);
 })
-
 
 let searchField = document.querySelector('#searchField');
 
@@ -191,7 +193,6 @@ function fetchData(num) {
       searchQueryInfo.textContent = "There is a total of " + data.total + " objects available on this searchquery for you to look at";
       //Collect ID-number to use and look at specific data in the second fetch
       let objID = data.objectIDs[num];
-
       //Fetch specific objectID
       fetch(objectsUrl + objID)
         .then((res) => res.json())
