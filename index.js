@@ -25,9 +25,10 @@ function updateButtonsState() {
 
 //Display message when there is no img available
 const imageWrapper = document.querySelector('#imageWrapper');
-const noImageMessage = document.createElement('h2');
+const noImageMessage = document.createElement('h3');
 noImageMessage.classList.add('noImageMessage');
-noImageMessage.textContent = "No image available..";
+noImageMessage.textContent =
+  "Sorry, there's no image available for this object. However there might still be something interesting to find if you use the 'Additional info' link, otherwise just proceed by using the buttons";
 imageWrapper.appendChild(noImageMessage);
 noImageMessage.style.display = 'none';
 
@@ -56,6 +57,12 @@ const displayData = async () => {
   //Hide loader when fetch is done
   loader.style.display = 'none';
   updateButtonsState();
+
+  if (objectData.primaryImage === '' || objectData.message === "Not a valid object") {
+    noImageMessage.style.display = 'block';
+  } else {
+    noImageMessage.style.display = 'none';
+  }
 
   let currentIndex = localStorage.getItem("currentIndex");
   console.log(objectData);
@@ -108,7 +115,9 @@ randomButton.addEventListener('click', () => {
 })
 
 
-//User-search section
+/*                        User-search section                                 */
+
+
 let i = 0;
 let keyword = "";
 
@@ -182,6 +191,14 @@ userRandomButton.addEventListener('click', () => {
 
 })
 
+//Handle no image error
+const userDisplayImageWrapper = document.querySelector('#userDisplayImageWrapper');
+const userNoimageMessage = document.createElement('h3');
+userNoimageMessage.classList.add('userNoImageMessage');
+userNoimageMessage.textContent =
+  "Sorry, there's no image available for this object. However there might still be something interesting to find if you use the 'Additional info' link, otherwise just proceed by using the buttons or search for something new";
+userDisplayImageWrapper.appendChild(userNoimageMessage);
+userNoimageMessage.style.display = 'none';
 
 function fetchData(num) {
   //Fetch via keyword query that user inputs
@@ -199,7 +216,9 @@ function fetchData(num) {
         .then((data) => {
           //Temporary fix for mitigating empty primaryImage objects
           if (data.primaryImage === '' || data.message === "Not a valid object") {
-            console.log("Empty objects..");
+            userNoimageMessage.style.display = 'block';
+          } else {
+            userNoimageMessage.style.display = 'none';
           }
 
           const displayImageTag = document.querySelector('#displayImageTag');
