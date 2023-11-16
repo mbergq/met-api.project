@@ -15,11 +15,20 @@ body {
 }
 
 #navigationBar {
-  min-width: 200px;
+  max-width: 200px;
+}
+
+#imageWrapper {
+  max-width: 780px;
+  height: max-content;
+  margin-left: 4rem;
 }
 
 #imageHolderTag {
-  margin-left: 4rem;
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
 }
 
 /* #imageWrapper {} */
@@ -30,11 +39,20 @@ body {
 }
 
 #userSearchNavBar {
-  min-width: 200px;
+  max-width: 200px;
+}
+
+#userDisplayImageWrapper {
+  max-width: 780px;
+  height: max-content;
+  margin-left: 4rem;
 }
 
 #displayImageTag {
-  margin-left: 4rem;
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
 }
 
 #userSearchSection {

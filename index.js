@@ -58,7 +58,6 @@ const displayData = async () => {
   console.log(objectData);
   const painting = document.querySelector('#imageHolderTag');
   painting.src = objectData.primaryImage;
-  painting.style.width = '70%';
 
   const artistName = document.querySelector('#artistName');
   artistName.textContent = "Artist: " + objectData.constituents[0].name;
@@ -204,7 +203,7 @@ function fetchData(num) {
 
           const displayImageTag = document.querySelector('#displayImageTag');
           displayImageTag.src = data.primaryImage;
-          displayImageTag.style.width = '70%';
+
           //Display data info
           const objectName = document.querySelector('#objectName');
           objectName.textContent = "Object: " + data.objectName;
