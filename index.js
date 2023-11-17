@@ -116,7 +116,6 @@ nextButton.addEventListener('click', () => {
 //Random
 randomButton.addEventListener('click', () => {
   indexValueFromStorage = Math.floor(Math.random() * 423);
-  console.log(indexValueFromStorage);
   getData(indexValueFromStorage);
   displayData()
 })
@@ -124,21 +123,21 @@ randomButton.addEventListener('click', () => {
 
 /*                        User-search section                                 */
 
+//Prepare searchpath to be used in fetch in conjunction with a searchword
+const searchOnWordPath = 'https://collectionapi.metmuseum.org/public/collection/v1/search?hasImages=true&q=';
+//Button selectors
+const userPreviousButton = document.querySelector('#userPreviousBtn');
+const userNextButton = document.querySelector('#userNextBtn');
+const userRandomButton = document.querySelector('#userRandomBtn');
 
-let i = 0;
 let keyword = "";
-
-addEventListener('DOMContentLoaded', () => {
-  keyword = "Snake";
-  fetchData(i);
-})
+let n = 0;
 
 let searchField = document.querySelector('#searchField');
 
 //Update value of keyword variable using input on the searchfield
 searchField.addEventListener('input', () => {
   keyword = searchField.value;
-  console.log(keyword);
 })
 
 document.querySelector('#searchButton').addEventListener('click', () => {
@@ -146,7 +145,7 @@ document.querySelector('#searchButton').addEventListener('click', () => {
   fetchData(n);
   clearSearchField();
 })
-//Let user search upon pressing "Enter"
+//Let user search upon pressing "Enter" in the searchfield
 document.querySelector('#searchField').addEventListener('keydown', (e) => {
   if (e.keyCode === 13) {
     keyword = searchField.value;
@@ -159,15 +158,6 @@ document.querySelector('#searchField').addEventListener('keydown', (e) => {
 function clearSearchField() {
   searchField.value = null;
 }
-
-const fetchObjects = 'https://collectionapi.metmuseum.org/public/collection/v1/search?hasImages=true&q=';
-
-const userPreviousButton = document.querySelector('#userPreviousBtn');
-const userNextButton = document.querySelector('#userNextBtn');
-const userRandomButton = document.querySelector('#userRandomBtn');
-
-//Set starting index, n is used for iterating in an array
-let n = 0;
 
 //Iterate back to previous objectID
 userPreviousButton.addEventListener('click', () => {
@@ -186,7 +176,7 @@ userNextButton.addEventListener('click', () => {
 //Random button that outputs a random objectID available from user keyword
 userRandomButton.addEventListener('click', () => {
   //Fetch array.length to use as roof for randombutton
-  fetch(fetchObjects + keyword)
+  fetch(searchOnWordPath + keyword)
     .then((res) => res.json())
     .then((data) => {
       let objectIDsLength = data.objectIDs.length;
@@ -198,7 +188,7 @@ userRandomButton.addEventListener('click', () => {
 
 })
 
-//Handle no image error
+//Prepare errormessage
 const userDisplayImageWrapper = document.querySelector('#userDisplayImageWrapper');
 const userNoimageMessage = document.createElement('h3');
 userNoimageMessage.classList.add('userNoImageMessage');
@@ -209,29 +199,32 @@ userNoimageMessage.style.display = 'none';
 
 function fetchData(num) {
   //Fetch via keyword query that user inputs
-  fetch(fetchObjects + keyword)
+  fetch(searchOnWordPath + keyword)
     .then((res) => res.json())
     .then((data) => {
+
       //Display how many objects there is available on current searchword
       let searchQueryInfo = document.querySelector('#searchQueryInfo');
-      searchQueryInfo.textContent = "There is a total of " + data.total + " objects available on this searchquery for you to look at";
-      //Collect ID-number to use and look at specific data in the second fetch
+      searchQueryInfo.textContent = "There is a total of " + data.total + " objects available on this keyword for you to look at";
+
       let objID = data.objectIDs[num];
-      //Fetch specific objectID
+
+
       fetch(searchPath + objID)
         .then((res) => res.json())
         .then((data) => {
-          //Temporary fix for mitigating empty primaryImage objects
+
+          //Handle no image error
           if (data.primaryImage === '' || data.message === "Not a valid object") {
             userNoimageMessage.style.display = 'block';
           } else {
             userNoimageMessage.style.display = 'none';
           }
 
+          //Display info
           const displayImageTag = document.querySelector('#displayImageTag');
           displayImageTag.src = data.primaryImage;
 
-          //Display data info
           const objectName = document.querySelector('#objectName');
           objectName.textContent = "Object: " + data.objectName;
 
