@@ -12,3 +12,7 @@ body {
 .dataContainer {
   margin: 8px;
 }
+
+nav {
+  margin-bottom: 2rem;
+}
