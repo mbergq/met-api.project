@@ -180,9 +180,7 @@ userRandomButton.addEventListener('click', () => {
     .then((res) => res.json())
     .then((data) => {
       let objectIDsLength = data.objectIDs.length;
-      console.log(objectIDsLength);
       n = Math.floor(Math.random() * objectIDsLength);
-      console.log(n);
       fetchData(n);
     })
 
