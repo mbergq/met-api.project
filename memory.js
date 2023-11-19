@@ -124,7 +124,6 @@ const generateCards = async () => {
   generateCardsButton.disabled = false;
   document.querySelector('#gameStateHeader').style.display = 'block';
   document.querySelector('#gameStateHeader').textContent = 'Cards are set!';
-  console.log("Done..");
 
 }
 
