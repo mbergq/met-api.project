@@ -10,8 +10,14 @@ body {
   font-weight: lighter;
 }
 
+#header>p {
+  font-size: 1.1rem;
+  font-style: italic;
+}
+
 #vanGoghartDisplaySection {
   display: flex;
+  margin-top: 2.6rem;
 }
 
 #navigationBar {
