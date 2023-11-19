@@ -7,7 +7,6 @@ document.querySelector('#updateCitiesButton').addEventListener('click', () => {
   fetch('https://avancera.app/cities/')
     .then((res) => res.json())
     .then((data) => {
-      console.log(data);
       //Create elements with data from API
       for (let i = 0; i < data.length; i++) {
         //Create containers for data info
@@ -75,8 +74,6 @@ postForm.addEventListener('submit', (e) => {
   const getPopulationValueToPut = document.querySelector('#populationPUT').value * 1;
 
   const getCityIdToPut = document.querySelector('#cityIdPUT').value;
-
-  console.log(getCityIdToPut);
 
   const putData = {
     id: getCityIdToPut,
