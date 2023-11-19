@@ -91,7 +91,6 @@ const monsterArray = fetchData().then(data => {
     elderDragon,
     relict,
     fangedBeast];
-  console.log(specieValues.length);
 
   for (let i = 0; i < specieValues.length; i++) {
     setRandomColor.push(randomRgbColor());
